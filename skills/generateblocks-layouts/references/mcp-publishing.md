@@ -140,6 +140,13 @@ viewer and fails validation instantly. This is the single most common MCP
 write failure with GB markup, and it hits every block carrying a CSS custom
 property or a `clamp()` with a minus sign — which is most of them.
 
+**PHP writes strip backslashes.** When a write goes through PHP instead of the
+REST API (WP-CLI `eval`, a migration script, a server's PHP-execution tool),
+`wp_insert_post()`, `wp_update_post()` and `update_post_meta()` all run
+`wp_unslash()` on their input. Every `\u002d\u002d` becomes `u002du002d` and the
+block fails validation. Wrap the post array or meta value in `wp_slash()`; the
+REST API and well-behaved MCP servers already do this. Verified on WordPress 6.9.
+
 **`wp_kses` eats shape blocks.** A user without `unfiltered_html` gets their
 content filtered on write. Inline SVG inside `generateblocks/shape` and any
 `<style>` in a `core/html` block are the usual casualties. Application

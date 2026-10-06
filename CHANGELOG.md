@@ -3,6 +3,17 @@
 Notable changes to GenerateBlocks Skills. Entries describe this repository, not
 releases of the GenerateBlocks plugins themselves.
 
+## [Unreleased]
+
+### Fixed
+
+- Wrapped the migration guide's `wp_update_post()` and `update_post_meta()`
+  calls in `wp_slash()`. Both functions unslash their input, so the documented
+  migration, backup and rollback stripped the backslashes from escaped comment
+  JSON and broke migrated blocks. The migration now keeps the first original as
+  the rollback copy.
+- Added the PHP unslash hazard to the MCP publishing guide's transport hazards.
+
 ## [2026.09.20] - 2026-09-20
 
 ### Fixed
